@@ -1,0 +1,251 @@
+swagger: "2.0"
+info:
+  title: "Employee API"
+  description: "API for managing employees"
+  version: "1.0.0"
+host: "localhost:5000"
+basePath: "/"
+schemes:
+  - "http"
+paths:
+  /:
+    post:
+      summary: "Add a new employee"
+      description: "Creates a new employee and updates it with external API data"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Employee data"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                example: "John Doe"
+              email:
+                type: "string"
+                example: "john.doe@example.com"
+              position:
+                type: "string"
+                example: "Developer"
+              salary:
+                type: "number"
+                format: "float"
+                example: 60000
+              age:
+                type: "integer"
+                example: 30
+              address:
+                type: "object"
+                properties:
+                  street:
+                    type: "string"
+                    example: "123 Main St"
+                  city:
+                    type: "string"
+                    example: "Anytown"
+                  zip:
+                    type: "string"
+                    example: "12345"
+              skills:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["Python", "Flask"]
+      responses:
+        201:
+          description: "Employee created and updated successfully with external API data"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Employee created and updated successfully with external API data"
+              employee:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  name:
+                    type: "string"
+                  email:
+                    type: "string"
+                  position:
+                    type: "string"
+                  salary:
+                    type: "number"
+                    format: "float"
+                  age:
+                    type: "integer"
+                  address:
+                    type: "string"
+                  skills:
+                    type: "string"
+                  created_on:
+                    type: "string"
+                    format: "date-time"
+        500:
+          description: "Failed to communicate with external API or other error"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+
+  /employees:
+    get:
+      summary: "Retrieve all employees"
+      description: "Fetches all employees"
+      responses:
+        200:
+          description: "A list of employees"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                name:
+                  type: "string"
+                email:
+                  type: "string"
+                position:
+                  type: "string"
+                salary:
+                  type: "number"
+                  format: "float"
+                age:
+                  type: "integer"
+                address:
+                  type: "string"
+                skills:
+                  type: "string"
+                created_on:
+                  type: "string"
+                  format: "date-time"
+
+  /{id}:
+    get:
+      summary: "Retrieve a specific employee by ID"
+      description: "Fetches an employee by their ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "Employee details"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              name:
+                type: "string"
+              email:
+                type: "string"
+              position:
+                type: "string"
+              salary:
+                type: "number"
+                format: "float"
+              age:
+                type: "integer"
+              address:
+                type: "string"
+              skills:
+                type: "string"
+              created_on:
+                type: "string"
+                format: "date-time"
+        404:
+          description: "Employee not found"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+
+    put:
+      summary: "Update employee information"
+      description: "Updates an existing employee's information"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Updated employee data"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              email:
+                type: "string"
+              position:
+                type: "string"
+              salary:
+                type: "number"
+                format: "float"
+      responses:
+        200:
+          description: "Employee updated successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Employee updated successfully"
+              employee:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                  name:
+                    type: "string"
+                  email:
+                    type: "string"
+                  position:
+                    type: "string"
+                  salary:
+                    type: "number"
+                    format: "float"
+        404:
+          description: "Employee not found"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+
+    delete:
+      summary: "Delete an employee"
+      description: "Deletes an employee by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "Employee deleted successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Employee deleted successfully"
+        404:
+          description: "Employee not found"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
